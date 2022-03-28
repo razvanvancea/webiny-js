@@ -41,6 +41,7 @@ import { assignAfterModelCreate } from "./contentModel/afterCreate";
 import { assignAfterModelUpdate } from "./contentModel/afterUpdate";
 import { assignAfterModelDelete } from "./contentModel/afterDelete";
 import { assignAfterModelCreateFrom } from "~/content/plugins/crud/contentModel/afterCreateFrom";
+import { assignModelFieldAliases } from "~/content/plugins/crud/contentModel/assignModelFieldAliases";
 
 export interface CreateModelsCrudParams {
     getTenant: () => Tenant;
@@ -118,17 +119,21 @@ export const createModelsCrud = (params: CreateModelsCrudParams): CmsModelContex
     };
 
     const modelsGet = async (modelId: string): Promise<CmsModel> => {
-        const pluginModel = getModelsAsPlugins().find(model => model.modelId === modelId);
+        // const pluginModel = getModelsAsPlugins().find(model => model.modelId === modelId);
+        //
+        // if (pluginModel) {
+        //     return pluginModel;
+        // }
+        //
+        // const model = await storageOperations.models.get({
+        //     tenant: getTenant().id,
+        //     locale: getLocale().code,
+        //     modelId
+        // });
 
-        if (pluginModel) {
-            return pluginModel;
-        }
+        const models = await modelsList();
 
-        const model = await storageOperations.models.get({
-            tenant: getTenant().id,
-            locale: getLocale().code,
-            modelId
-        });
+        const model = models.find(model => model.modelId === modelId);
 
         if (!model) {
             throw new NotFoundError(`Content model "${modelId}" was not found!`);
@@ -146,7 +151,7 @@ export const createModelsCrud = (params: CreateModelsCrudParams): CmsModelContex
 
         const pluginsModels = getModelsAsPlugins();
 
-        return databaseModels.concat(pluginsModels);
+        return assignModelFieldAliases(databaseModels.concat(pluginsModels));
     };
 
     const listModels = async () => {

@@ -37,8 +37,10 @@ export const renderField = ({
     fieldTypePlugins
 }: RenderFieldParams): CmsModelFieldDefinition | null => {
     const plugin: CmsModelFieldToGraphQLPlugin = fieldTypePlugins[field.type];
-    if (!plugin) {
-        // Let's not render the field if it does not exist in the field plugins.
+    /**
+     * Let's not render the field if it does not exist in the field plugins or there is no field alias.
+     */
+    if (!plugin || !field.alias) {
         return null;
     }
     const defs = plugin[type].createTypeField({

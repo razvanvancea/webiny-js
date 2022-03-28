@@ -49,7 +49,7 @@ export const createFieldResolversFactory = (factoryParams: CreateFieldResolversF
         const typeResolvers = {};
 
         for (const field of fields) {
-            if (!fieldTypePlugins[field.type]) {
+            if (!fieldTypePlugins[field.type] || !field.alias) {
                 continue;
             }
 
@@ -73,22 +73,21 @@ export const createFieldResolversFactory = (factoryParams: CreateFieldResolversF
                 Object.assign(typeResolvers, fieldResolver.typeResolvers);
             }
 
-            const { fieldId } = field;
             // TODO @ts-refactor figure out types for parameters
             // @ts-ignore
-            fieldResolvers[fieldId] = async (parent, args, context: CmsContext, info) => {
+            fieldResolvers[field.alias] = async (parent, args, context: CmsContext, info) => {
                 // Get transformed value (eg. data decompression)
                 const transformedValue = await entryFieldFromStorageTransform({
                     context,
                     model,
                     field,
-                    value: isRoot ? parent.values[fieldId] : parent[fieldId]
+                    value: isRoot ? parent.values[field.fieldId] : parent[field.fieldId]
                 });
 
-                set(isRoot ? parent.values : parent, fieldId, transformedValue);
+                set(isRoot ? parent.values : parent, field.fieldId, transformedValue);
 
                 if (!resolver) {
-                    return isRoot ? parent.values[fieldId] : parent[fieldId];
+                    return isRoot ? parent.values[field.fieldId] : parent[field.fieldId];
                 }
 
                 return await resolver(isRoot ? parent.values : parent, args, context, info);

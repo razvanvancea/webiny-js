@@ -78,7 +78,7 @@ export const createReadSDL: CreateReadSDL = ({ model, fieldTypePlugins }): strin
         }
         
         type ${rTypeName}ListResponse {
-            data: [${rTypeName}]
+            data: [${rTypeName}!]
             meta: CmsListMeta
             error: CmsError
         }

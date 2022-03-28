@@ -8,8 +8,8 @@ export const mockedGetModel = (modelId: string) => {
     switch (modelId) {
         case iPhoneContentModelId:
             return Promise.resolve({
-                createdOn: new Date(),
-                savedOn: new Date(),
+                createdOn: new Date().toISOString(),
+                savedOn: new Date().toISOString(),
                 locale: "en-US",
                 titleFieldId: "title",
                 lockedFields: [],
@@ -26,8 +26,8 @@ export const mockedGetModel = (modelId: string) => {
 
         case macContentModelId:
             return Promise.resolve({
-                createdOn: new Date(),
-                savedOn: new Date(),
+                createdOn: new Date().toISOString(),
+                savedOn: new Date().toISOString(),
                 locale: "en-US",
                 titleFieldId: "title",
                 lockedFields: [],
@@ -43,8 +43,8 @@ export const mockedGetModel = (modelId: string) => {
 
         default:
             return Promise.resolve({
-                createdOn: new Date(),
-                savedOn: new Date(),
+                createdOn: new Date().toISOString(),
+                savedOn: new Date().toISOString(),
                 locale: "en-US",
                 titleFieldId: "title",
                 lockedFields: [],

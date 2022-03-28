@@ -86,7 +86,7 @@ export default /* GraphQL */ `
     }
 
     type CategoryListResponse {
-        data: [Category]
+        data: [Category!]
         meta: CmsListMeta
         error: CmsError
     }

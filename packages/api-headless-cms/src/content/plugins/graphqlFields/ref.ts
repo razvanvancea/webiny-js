@@ -21,8 +21,8 @@ interface UnionField {
     typeName: string;
 }
 
-const createUnionTypeName = (model: CmsModel, field: CmsModelField) => {
-    return `${createReadTypeName(model.modelId)}${createReadTypeName(field.fieldId)}`;
+const createUnionTypeName = (model: CmsModel, alias: string) => {
+    return `${createReadTypeName(model.modelId)}${createReadTypeName(alias)}`;
 };
 
 interface CreateListFilterParams {
@@ -30,7 +30,7 @@ interface CreateListFilterParams {
 }
 const createListFilters = ({ field }: CreateListFilterParams) => {
     return `
-        ${field.fieldId}: RefFieldWhereInput
+        ${field.alias}: RefFieldWhereInput
     `;
 };
 
@@ -81,10 +81,10 @@ const plugin: CmsModelFieldToGraphQLPlugin = {
             const models = field.settings?.models || [];
             const gqlType =
                 models.length > 1
-                    ? createUnionTypeName(model, field)
+                    ? createUnionTypeName(model, field.alias as string)
                     : createReadTypeName(models[0].modelId);
 
-            return field.fieldId + `: ${field.multipleValues ? `[${gqlType}]` : gqlType}`;
+            return field.alias + `: ${field.multipleValues ? `[${gqlType}]` : gqlType}`;
         },
         /**
          * TS is complaining about mixed types for createResolver.
@@ -93,6 +93,10 @@ const plugin: CmsModelFieldToGraphQLPlugin = {
         // @ts-ignore
         createResolver(params) {
             const { field } = params;
+            const alias = field.alias;
+            if (!alias) {
+                return false;
+            }
             // Create a map of model types and corresponding modelIds so resolvers don't need to perform the lookup.
             const models = field.settings?.models || [];
             for (const item of models) {
@@ -103,7 +107,7 @@ const plugin: CmsModelFieldToGraphQLPlugin = {
                 const { cms } = context;
 
                 // Get field value for this entry
-                const initialValue = parent[field.fieldId] as RefFieldValue | RefFieldValue[];
+                const initialValue = parent[alias] as RefFieldValue | RefFieldValue[];
 
                 if (!initialValue) {
                     return null;
@@ -186,14 +190,17 @@ const plugin: CmsModelFieldToGraphQLPlugin = {
             for (const model of models) {
                 // Generate a dedicated union type for every `ref` field which has more than 1 content model assigned.
                 model.fields
-                    .filter(
-                        field => field.type === "ref" && (field.settings?.models || []).length > 1
-                    )
+                    .filter(field => {
+                        if (!field.alias) {
+                            return false;
+                        }
+                        return field.type === "ref" && (field.settings?.models || []).length > 1;
+                    })
                     .forEach(field =>
                         unionFields.push({
                             model,
                             field,
-                            typeName: createUnionTypeName(model, field)
+                            typeName: createUnionTypeName(model, field.alias as string)
                         })
                     );
             }
@@ -254,9 +261,9 @@ const plugin: CmsModelFieldToGraphQLPlugin = {
         },
         createTypeField({ field }) {
             if (field.multipleValues) {
-                return `${field.fieldId}: [RefField!]`;
+                return `${field.alias}: [RefField!]`;
             }
-            return `${field.fieldId}: RefField`;
+            return `${field.alias}: RefField`;
         },
         createInputField({ field }) {
             return createGraphQLInputField(field, "RefFieldInput");

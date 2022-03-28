@@ -126,7 +126,7 @@ export interface CmsModelField {
      */
     type: string;
     /**
-     * A unique field ID for mapping values.
+     * A unique field ID for mapping field values into the database.
      * Must in form of a-zA-Z0-9.
      *
      * We generate a unique fieldId value when you're building a model via UI,
@@ -134,7 +134,16 @@ export interface CmsModelField {
      */
     fieldId: string;
     /**
-     * A label for the field
+     * Field alias is used to expose defined field to the API.
+     * Two fields in the same model cannot have same aliases!
+     *
+     * If there is no alias, field value is accessed via fieldId.
+     *
+     * Alias is undefined in case of old models. We will assign the fieldId to alias in that case.
+     */
+    alias: string | null;
+    /**
+     * A label for the field.
      */
     label: string;
     /**
@@ -1027,6 +1036,12 @@ export interface CmsModelFieldInput {
      * This field MUST be in range of "a-zA-Z".
      */
     fieldId: string;
+    /**
+     * Field representation on the API.
+     *
+     * @see CmsModelField.alias
+     */
+    alias: string | null;
     /**
      * Label for the field.
      */

@@ -71,6 +71,12 @@ export const renderListFilterFields: RenderListFilterFields = ({
     ];
 
     for (const field of model.fields) {
+        /**
+         * In case there is no field alias, we do not want to output it to the API.
+         */
+        if (!field.alias) {
+            continue;
+        }
         // Every time a client updates content model's fields, we check the type of each field. If a field plugin
         // for a particular "field.type" doesn't exist on the backend yet, we throw an error. But still, we also
         // want to be careful when accessing the field plugin here too. It is still possible to have a content model

@@ -94,7 +94,7 @@ export default /* GraphQL */ `
     }
 
     type ReviewListResponse {
-        data: [Review]
+        data: [Review!]
         meta: CmsListMeta
         error: CmsError
     }

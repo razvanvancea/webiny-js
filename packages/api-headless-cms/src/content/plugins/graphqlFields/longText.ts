@@ -6,8 +6,8 @@ interface CreateListFiltersParams {
 }
 const createListFilters = ({ field }: CreateListFiltersParams) => {
     return `
-        ${field.fieldId}_contains: String
-        ${field.fieldId}_not_contains: String
+        ${field.alias}_contains: String
+        ${field.alias}_not_contains: String
     `;
 };
 
@@ -20,10 +20,10 @@ const plugin: CmsModelFieldToGraphQLPlugin = {
     read: {
         createTypeField({ field }) {
             if (field.multipleValues) {
-                return `${field.fieldId}: [String]`;
+                return `${field.alias}: [String]`;
             }
 
-            return `${field.fieldId}: String`;
+            return `${field.alias}: String`;
         },
         createListFilters
     },
@@ -31,10 +31,10 @@ const plugin: CmsModelFieldToGraphQLPlugin = {
         createListFilters,
         createTypeField({ field }) {
             if (field.multipleValues) {
-                return field.fieldId + ": [String]";
+                return field.alias + ": [String]";
             }
 
-            return field.fieldId + ": String";
+            return field.alias + ": String";
         },
         createInputField({ field }) {
             return createGraphQLInputField(field, "String");

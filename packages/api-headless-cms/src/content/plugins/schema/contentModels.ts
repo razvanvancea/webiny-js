@@ -81,7 +81,7 @@ const plugin = (context: CmsContext): GraphQLSchemaPlugin<CmsContext> => {
 
             input CmsPredefinedValuesInput {
                 enabled: Boolean
-                values: [CmsPredefinedValueInput]
+                values: [CmsPredefinedValueInput!]
             }
             input CmsFieldRendererInput {
                 name: String
@@ -99,12 +99,13 @@ const plugin = (context: CmsContext): GraphQLSchemaPlugin<CmsContext> => {
                 helpText: String
                 placeholderText: String
                 fieldId: String!
+                alias: String
                 type: String!
                 multipleValues: Boolean
                 predefinedValues: CmsPredefinedValuesInput
                 renderer: CmsFieldRendererInput
-                validation: [CmsFieldValidationInput]
-                listValidation: [CmsFieldValidationInput]
+                validation: [CmsFieldValidationInput!]
+                listValidation: [CmsFieldValidationInput!]
                 settings: JSON
             }
 
@@ -176,6 +177,7 @@ const plugin = (context: CmsContext): GraphQLSchemaPlugin<CmsContext> => {
             type CmsContentModelField {
                 id: ID!
                 fieldId: String!
+                alias: String
                 label: String!
                 helpText: String
                 placeholderText: String
@@ -197,7 +199,7 @@ const plugin = (context: CmsContext): GraphQLSchemaPlugin<CmsContext> => {
                 savedOn: DateTime
                 createdBy: CmsCreatedBy
                 fields: [CmsContentModelField!]!
-                lockedFields: [JSON]
+                lockedFields: [String!]!
                 layout: [[String!]!]!
                 titleFieldId: String
 

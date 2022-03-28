@@ -22,7 +22,7 @@ const plugin = (context: CmsContext): GraphQLSchemaPlugin<CmsContext> => {
             }
 
             type CmsContentModelGroupListResponse {
-                data: [CmsContentModelGroup]
+                data: [CmsContentModelGroup!]
                 meta: CmsListMeta
                 error: CmsError
             }
@@ -122,8 +122,8 @@ const plugin = (context: CmsContext): GraphQLSchemaPlugin<CmsContext> => {
         typeDefs: /* GraphQL */ `
             type CmsContentModelGroup {
                 id: ID!
-                createdOn: DateTime
-                savedOn: DateTime
+                createdOn: DateTime!
+                savedOn: DateTime!
                 name: String!
                 contentModels: [CmsContentModel!]
                 totalContentModels: Int!

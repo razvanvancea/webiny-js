@@ -168,7 +168,7 @@ export default /* GraphQL */ `
     }
 
     type ProductListResponse {
-        data: [Product]
+        data: [Product!]
         meta: CmsListMeta
         error: CmsError
     }

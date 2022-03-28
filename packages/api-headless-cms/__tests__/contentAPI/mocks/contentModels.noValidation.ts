@@ -11,8 +11,8 @@ const ids = {
 
 const models: CmsModel[] = [
     {
-        createdOn: new Date(),
-        savedOn: new Date(),
+        createdOn: new Date().toISOString(),
+        savedOn: new Date().toISOString(),
         titleFieldId: "title",
         lockedFields: [],
         name: "Category",
@@ -31,6 +31,7 @@ const models: CmsModel[] = [
                 label: "Title",
                 type: "text",
                 fieldId: "title",
+                alias: "title",
                 validation: [],
                 listValidation: [],
                 placeholderText: "placeholder text",
@@ -49,6 +50,7 @@ const models: CmsModel[] = [
                 label: "Slug",
                 type: "text",
                 fieldId: "slug",
+                alias: "slug",
                 validation: [],
                 listValidation: [],
                 placeholderText: "placeholder text",

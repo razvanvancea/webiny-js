@@ -15,15 +15,18 @@ export const renderSortEnum: RenderSortEnum = ({ model, fieldTypePlugins }): str
     ];
 
     for (const field of model.fields) {
-        if (!fieldTypePlugins[field.type]) {
+        /**
+         * In case of not finding field plugin by type or there is no alias, skip this field.
+         */
+        if (!field.alias || !fieldTypePlugins[field.type]) {
             continue;
         }
         const isSortable = fieldTypePlugins[field.type].isSortable;
         if (!isSortable) {
             continue;
         }
-        sorters.push(`${field.fieldId}_ASC`);
-        sorters.push(`${field.fieldId}_DESC`);
+        sorters.push(`${field.alias}_ASC`);
+        sorters.push(`${field.alias}_DESC`);
     }
 
     return sorters.join("\n");

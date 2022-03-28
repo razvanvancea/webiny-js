@@ -37,9 +37,10 @@ export const renderInputField = ({
     // that contains a field, for which we don't have a plugin registered on the backend. For example, user
     // could've just removed the plugin from the backend.
     const plugin: CmsModelFieldToGraphQLPlugin = fieldTypePlugins[field.type];
-
-    if (!plugin) {
-        // Let's not render the field if it does not exist in the field plugins.
+    /**
+     * Let's not render the field if it does not exist in the field plugins or in case of missing alias.
+     */
+    if (!plugin || !field.alias) {
         return null;
     }
 
