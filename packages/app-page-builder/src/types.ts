@@ -119,9 +119,7 @@ export interface PbElementDataSettingsType {
     margin?: PbElementDataSettingsMarginType;
     padding?: PbElementDataSettingsPaddingType;
     height?: {
-        [key: string]: {
-            value?: number;
-        };
+        value?: number;
     };
     background?: PbElementDataSettingsBackgroundType;
     border?: PbElementDataSettingsBorderType;
