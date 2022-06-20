@@ -13,7 +13,7 @@ const PageSettingsButton: React.FC = () => {
             })
         );
     };
-    return <IconButton onClick={onClickHandler} icon={<SettingsIcon />} />;
+    return <IconButton onClick={onClickHandler} icon={<SettingsIcon />} data-testid={"page-settings-btn"}/>;
 };
 
 export default React.memo(PageSettingsButton);
