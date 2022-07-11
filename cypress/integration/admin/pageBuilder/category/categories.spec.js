@@ -233,7 +233,7 @@ context("Categories Module", () => {
         cy.findByText('Click to Add').click({force: true});
 
         cy.findByTestId('add-element').click();
-        cy.wait(2000);
+        cy.wait(5000);
 
         cy.get('[data-testid="grid-section"] div.background').as('dropBtnSection');
 
@@ -241,6 +241,13 @@ context("Categories Module", () => {
             assert.isTrue(success)
           })
 
+        // cy.get('.e1ewqqw50').as('dropBtnSection');
+
+        // cy.get('[data-testid="pb-editor-add-element-button-paragraph"]').drag('@dropBtnSection', {force: true}).then((success) => {
+        //     assert.isTrue(success)
+        //   })
+
+          cy.wait(2000);
         cy.findByTestId('add-element').click();
     });
 });
