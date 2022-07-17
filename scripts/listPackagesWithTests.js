@@ -14,44 +14,52 @@ const CUSTOM_HANDLERS = {
     // Ignore "i18n" package.
     i18n: () => [],
 
+    // TODO: bring back project-utils tests.
+    "project-utils": () => [],
+
     // Split "api-file-manager" tests.
     "api-file-manager": () => {
         return [
-            "packages/api-file-manager/* --keyword=fm:ddb --keyword=fm:base"
-            // "packages/api-file-manager/* --keyword=fm:ddb-es --keyword=fm:base"
+            "packages/api-file-manager/* --keyword=fm:ddb --keyword=fm:base",
+            "packages/api-file-manager/* --keyword=fm:ddb-es --keyword=fm:base"
         ];
     },
 
     // Split "api-form-builder" tests.
     "api-form-builder": () => {
         return [
-            "packages/api-form-builder/* --keyword=fb:ddb --keyword=fb:base"
-            // "packages/api-form-builder/* --keyword=fb:ddb-es --keyword=fb:base"
+            "packages/api-form-builder/* --keyword=fb:ddb --keyword=fb:base",
+            "packages/api-form-builder/* --keyword=fb:ddb-es --keyword=fb:base"
         ];
     },
 
     // Split "api-page-builder" tests.
     "api-page-builder": () => {
         return [
-            "packages/api-page-builder/* --keyword=pb:ddb --keyword=pb:base"
-            // "packages/api-page-builder/* --keyword=pb:ddb-es --keyword=pb:base"
+            "packages/api-page-builder/* --keyword=pb:ddb --keyword=pb:base",
+            "packages/api-page-builder/* --keyword=pb:ddb-es --keyword=pb:base"
         ];
     },
     // Split "api-headless-cms" tests.
     "api-headless-cms": () => {
         return [
-            "packages/api-headless-cms/* --keyword=cms:ddb --keyword=cms:base"
-            // "packages/api-headless-cms/* --keyword=cms:ddb-es --keyword=cms:base"
+            "packages/api-headless-cms/* --keyword=cms:ddb --keyword=cms:base",
+            "packages/api-headless-cms/* --keyword=cms:ddb-es --keyword=cms:base"
         ];
     },
     // Split "api-apw" tests.
     "api-apw": () => {
+        // TODO 1: we had to disable these temporarily because APW relies on WCP, and in our
+        // TODO 1: CI/CD, we're not testing a WCP-enabled Webiny project yet (which causes errors).
+        // TODO 1: Let's bring this ASAP or at least before releasing APW in Q3/2022.
+        //return [];
+
         return [
-            // TODO: APW tests currently only work with DynamoDB-only (it's hard-coded in the tests).
-            //  That is because we currently have no way to load multiple storage operations at the same time.
+            //     // TODO 2: APW tests currently only work with DynamoDB-only (it's hard-coded in the tests).
+            //     // TODO 2: That is because we currently have no way to load multiple storage operations at the same time.
             "packages/api-apw/*"
-            // "packages/api-apw/* --keyword=cms:ddb --keyword=apw:base",
-            // "packages/api-apw/* --keyword=cms:ddb-es --keyword=apw:base"
+            //     // "packages/api-apw/* --keyword=cms:ddb --keyword=apw:base",
+            //     // "packages/api-apw/* --keyword=cms:ddb-es --keyword=apw:base"
         ];
     }
 };
